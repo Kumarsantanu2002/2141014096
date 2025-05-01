@@ -1,0 +1,7 @@
+History of Linux:
+
+Linux, created by Linus Torvalds in 1991, began as a personal project while he was a student at the University of Helsinki. Initially, it was a Unix-like operating system kernel that Torvalds developed as a free and open-source alternative to proprietary operating systems like Microsoft Windows and Unix. Linux was released under the GNU General Public License (GPL), which allowed anyone to modify and distribute the code.
+
+GNU/Linux Philosophy:
+
+The philosophy behind Linux is rooted in the ideals of the Free Software Foundation (FSF) and the GNU Project, founded by Richard Stallman. The goal was to create a completely free operating system, both in terms of freedom and cost. The GNU Project provided many of the essential tools and programs, such as the GNU Compiler Collection (GCC), that work with the Linux kernel to form a complete operating system. This combination is often referred to as GNU/Linux. The philosophy emphasizes freedom, collaboration, and transparency, with a focus on providing users with control over their computing environment.
