@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Declare variables
+name="Santanu"
+score=75
+
+# Conditional statement based on score
+if [ $score -ge 60 ]; then
+    echo "$name passed with a score of $score."
+else
+    echo "$name failed with a score of $score."
+fi
