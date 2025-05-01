@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <time.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+int main() {
+    int listenfd, connfd;
+    struct sockaddr_in servaddr, clientaddr;
+    socklen_t len;
+    char buff[] = "Welcome to the Server!";
+
+    listenfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (listenfd < 0) {
+        perror("Socket creation failed");
+        exit(EXIT_FAILURE);
+    }
+
+    memset(&servaddr, 0, sizeof(servaddr));
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = htonl(INADDR_ANY); // Accept from all interfaces
+    servaddr.sin_port = htons(0); // Use ephemeral port
+
+    // Bind
+    if (bind(listenfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) < 0) {
+        perror("Bind failed");
+        exit(EXIT_FAILURE);
+    }
+
+    // Get the port assigned by the OS
+    len = sizeof(servaddr);
+    getsockname(listenfd, (struct sockaddr *)&servaddr, &len);
+    printf("Server is listening on port: %d\n", ntohs(servaddr.sin_port));
+
+    // Listen and accept connection
+    listen(listenfd, 5);
+    len = sizeof(clientaddr);
+    connfd = accept(listenfd, (struct sockaddr *)&clientaddr, &len);
+    if (connfd < 0) {
+        perror("Accept failed");
+        exit(EXIT_FAILURE);
+    }
+
+    // Send welcome message
+    write(connfd, buff, strlen(buff));
+
+    // Cleanup
+    close(connfd);
+    close(listenfd);
+
+    return 0;
+}

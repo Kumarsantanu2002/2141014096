@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+int main(int argc, char *argv[]) {
+    int sockfd, n;
+    char recvline[1024];
+    struct sockaddr_in servaddr;
+
+    if (argc != 3) {
+        printf("Usage: %s <Server-IP> <Port>\n", argv[0]);
+        exit(1);
+    }
+
+    // Create socket
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd < 0) {
+        perror("Socket creation failed");
+        exit(EXIT_FAILURE);
+    }
+
+    memset(&servaddr, 0, sizeof(servaddr));
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = inet_addr(argv[1]); // Server IP
+    servaddr.sin_port = htons(atoi(argv[2]));      // Server Port
+
+    // Connect to server
+    if (connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) < 0) {
+        perror("Connect failed");
+        exit(EXIT_FAILURE);
+    }
+
+    // Receive message
+    n = read(sockfd, recvline, sizeof(recvline) - 1);
+    recvline[n] = '\0';
+
+    // Print received message
+    printf("Message from server: %s\n", recvline);
+
+    // Cleanup
+    close(sockfd);
+    return 0;
+}
