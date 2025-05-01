@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    FILE *fp;
+    char buffer[100];
+
+    // Step 1: Open or create the file "data.txt"
+    fp = fopen("data.txt", "w+"); // "w+" creates the file if it doesn't ex>    if (fp == NULL) {
+        perror("Error opening file");
+        return 1;
+    }
+
+    // Step 2: Write to the file
+    const char *text = "Hello, File Handling in C!";
+    fputs(text, fp);
+
+    // Step 3: Move file pointer to beginning
+    rewind(fp);
+
+    // Step 4: Read the contents back
+    if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+        printf("Contents of the file:\n%s\n", buffer);
+    } else {
+        printf("Failed to read from the file.\n");
+    }
+
+    // Step 5: Close the file
+    fclose(fp);
+
+    return 0;
+}
+
+
